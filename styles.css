@@ -1,0 +1,41 @@
+/* Rainbow CSV Plugin Styles */
+
+.rainbow-csv-code-block {
+    font-family: var(--font-monospace);
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/* Rainbow text colors for columns */
+.rainbow-csv-col-0 { color: #e74c3c; } /* Red */
+.rainbow-csv-col-1 { color: #f39c12; } /* Orange */
+.rainbow-csv-col-2 { color: #f1c40f; } /* Yellow */
+.rainbow-csv-col-3 { color: #27ae60; } /* Green */
+.rainbow-csv-col-4 { color: #3498db; } /* Blue */
+.rainbow-csv-col-5 { color: #9b59b6; } /* Purple */
+.rainbow-csv-col-6 { color: #e91e63; } /* Pink */
+.rainbow-csv-col-7 { color: #1abc9c; } /* Teal */
+.rainbow-csv-col-8 { color: #34495e; } /* Dark Blue Grey */
+.rainbow-csv-col-9 { color: #95a5a6; } /* Blue Grey */
+.rainbow-csv-col-10 { color: #d35400; } /* Dark Orange */
+.rainbow-csv-col-11 { color: #8e44ad; } /* Dark Purple */
+.rainbow-csv-col-12 { color: #16a085; } /* Dark Teal */
+.rainbow-csv-col-13 { color: #c0392b; } /* Dark Red */
+.rainbow-csv-col-14 { color: #2980b9; } /* Strong Blue */
+
+/* Dark theme adjustments - lighter colors for better contrast */
+.theme-dark .rainbow-csv-col-0 { color: #ff6b6b; } /* Light Red */
+.theme-dark .rainbow-csv-col-1 { color: #ffa726; } /* Light Orange */
+.theme-dark .rainbow-csv-col-2 { color: #ffeb3b; } /* Bright Yellow */
+.theme-dark .rainbow-csv-col-3 { color: #66bb6a; } /* Light Green */
+.theme-dark .rainbow-csv-col-4 { color: #42a5f5; } /* Light Blue */
+.theme-dark .rainbow-csv-col-5 { color: #ab47bc; } /* Light Purple */
+.theme-dark .rainbow-csv-col-6 { color: #ec407a; } /* Light Pink */
+.theme-dark .rainbow-csv-col-7 { color: #26c6da; } /* Light Teal */
+.theme-dark .rainbow-csv-col-8 { color: #78909c; } /* Light Blue Grey */
+.theme-dark .rainbow-csv-col-9 { color: #bdbdbd; } /* Light Grey */
+.theme-dark .rainbow-csv-col-10 { color: #ff7043; } /* Light Dark Orange */
+.theme-dark .rainbow-csv-col-11 { color: #ba68c8; } /* Light Dark Purple */
+.theme-dark .rainbow-csv-col-12 { color: #4db6ac; } /* Light Dark Teal */
+.theme-dark .rainbow-csv-col-13 { color: #ef5350; } /* Light Dark Red */
+.theme-dark .rainbow-csv-col-14 { color: #5c6bc0; } /* Light Strong Blue */
