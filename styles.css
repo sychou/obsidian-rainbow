@@ -6,6 +6,16 @@
     overflow-x: auto;
 }
 
+.rainbow-csv-warning {
+    background: var(--background-modifier-warning);
+    color: var(--text-warning);
+    padding: 8px 12px;
+    border-radius: var(--radius-s);
+    margin-bottom: 8px;
+    font-size: var(--font-size-small);
+    border-left: 3px solid var(--text-warning);
+}
+
 /* Rainbow text colors for columns */
 .rainbow-csv-col-0 { color: #e74c3c; } /* Red */
 .rainbow-csv-col-1 { color: #f39c12; } /* Orange */

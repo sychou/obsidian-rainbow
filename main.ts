@@ -4,11 +4,13 @@ import { CSVRenderer } from './csv-renderer';
 interface RainbowCSVSettings {
 	enabled: boolean;
 	maxColumns: number;
+	maxRows: number;
 }
 
 const DEFAULT_SETTINGS: RainbowCSVSettings = {
 	enabled: true,
-	maxColumns: 15
+	maxColumns: 15,
+	maxRows: 500
 };
 
 export default class RainbowCSVPlugin extends Plugin {
@@ -112,6 +114,18 @@ class RainbowCSVSettingTab extends PluginSettingTab {
 				.setDynamicTooltip()
 				.onChange(async (value) => {
 					this.plugin.settings.maxColumns = value;
+					await this.plugin.saveSettings();
+				}));
+
+		new Setting(containerEl)
+			.setName('Maximum Rows')
+			.setDesc('Maximum number of rows to render for large CSVs (for performance)')
+			.addSlider(slider => slider
+				.setLimits(100, 2000, 50)
+				.setValue(this.plugin.settings.maxRows)
+				.setDynamicTooltip()
+				.onChange(async (value) => {
+					this.plugin.settings.maxRows = value;
 					await this.plugin.saveSettings();
 				}));
 	}

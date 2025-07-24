@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-rainbow-csv",
+	"id": "obsidian-rainbow",
 	"name": "Rainbow CSV",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "Rainbow CSV coloring for markdown code blocks - highlights CSV columns with different colors for better readability",
-	"author": "",
-	"authorUrl": "",
+	"author": "Sean Chou",
+	"authorUrl": "https://github.com/sychou/obsidian-rainbow",
 	"isDesktopOnly": false
 }

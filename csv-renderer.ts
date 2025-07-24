@@ -3,10 +3,12 @@ import { CSVParser, CSVData } from './csv-parser';
 interface RainbowCSVSettings {
     enabled: boolean;
     maxColumns: number;
+    maxRows: number;
 }
 
 export class CSVRenderer {
     private settings: RainbowCSVSettings;
+    private static readonly PERFORMANCE_THRESHOLD = 1000; // Switch to fast mode for large CSVs
     
     constructor(settings: RainbowCSVSettings) {
         this.settings = settings;
@@ -19,6 +21,12 @@ export class CSVRenderer {
     renderCSV(content: string): HTMLElement {
         if (!this.settings.enabled) {
             return this.renderPlainText(content);
+        }
+        
+        // Early exit for very large content
+        const lineCount = content.split('\n').length;
+        if (lineCount > CSVRenderer.PERFORMANCE_THRESHOLD) {
+            return this.renderLargeCSV(content);
         }
         
         const csvData = CSVParser.parse(content);
@@ -38,42 +46,69 @@ export class CSVRenderer {
         return pre;
     }
     
+    private renderLargeCSV(content: string): HTMLElement {
+        const lines = content.split('\n');
+        const maxRows = Math.min(this.settings.maxRows || 500, lines.length);
+        const truncatedContent = lines.slice(0, maxRows).join('\n');
+        
+        const container = document.createElement('div');
+        container.className = 'rainbow-csv-code-block';
+        
+        const warning = document.createElement('div');
+        warning.className = 'rainbow-csv-warning';
+        warning.textContent = `Large CSV detected (${lines.length} rows). Showing first ${maxRows} rows for performance.`;
+        
+        const csvData = CSVParser.parse(truncatedContent);
+        const content_div = this.renderColoredText(csvData);
+        
+        container.appendChild(warning);
+        container.appendChild(content_div);
+        return container;
+    }
+    
     private renderColoredText(csvData: CSVData): HTMLElement {
         const container = document.createElement('div');
         container.className = 'rainbow-csv-code-block';
         
-        const pre = document.createElement('pre');
-        const code = document.createElement('code');
+        // Pre-calculate color classes to avoid repeated string operations
+        const colorClasses = Array.from({length: 15}, (_, i) => `rainbow-csv-col-${i}`);
+        
+        // Build HTML string for better performance
+        const htmlParts: string[] = [];
         
         for (let rowIndex = 0; rowIndex < csvData.rows.length; rowIndex++) {
             const row = csvData.rows[rowIndex];
             
             for (let colIndex = 0; colIndex < row.cells.length; colIndex++) {
-                const cell = row.cells[colIndex];
+                const cell = this.escapeHtml(row.cells[colIndex]);
+                const colorClass = colorClasses[colIndex % 15];
                 
-                // Create colored span for each cell
-                const span = document.createElement('span');
-                span.className = `rainbow-csv-col-${colIndex % 15}`;
-                span.textContent = cell;
-                
-                code.appendChild(span);
+                htmlParts.push(`<span class="${colorClass}">${cell}</span>`);
                 
                 // Add delimiter after each cell except the last one
                 if (colIndex < row.cells.length - 1) {
-                    const delimiterSpan = document.createElement('span');
-                    delimiterSpan.textContent = csvData.delimiter;
-                    code.appendChild(delimiterSpan);
+                    htmlParts.push(this.escapeHtml(csvData.delimiter));
                 }
             }
             
             // Add newline after each row except the last one
             if (rowIndex < csvData.rows.length - 1) {
-                code.appendChild(document.createTextNode('\n'));
+                htmlParts.push('\n');
             }
         }
+        
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');
+        code.innerHTML = htmlParts.join('');
         
         pre.appendChild(code);
         container.appendChild(pre);
         return container;
+    }
+    
+    private escapeHtml(text: string): string {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 }
